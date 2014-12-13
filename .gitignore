@@ -1,2 +1,5 @@
-packrat/lib*/
+packrat
 .Rproj.user
+.Rprofile
+data
+linelist_analyze.Rproj
