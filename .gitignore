@@ -3,3 +3,4 @@ packrat
 .Rprofile
 data
 linelist_analyze.Rproj
+packrat/lib*/

@@ -11,7 +11,7 @@ source('global.R')
 
 make.sliderInput <- function(inputId, aLabel) {
     x <- linelist[[aLabel]]
-    return(sliderInput(inputId, h4(aLabel), min(x), max(x), range(x)))
+    return(sliderInput(inputId, label=aLabel, min(x), max(x), range(x)))
 }
 
 
@@ -60,8 +60,8 @@ shinyServer(function(input, output) {
 
     output$sliders <- renderUI({
 
-    x.label <- input$select.x
-    y.label <- input$select.y
+        x.label <- input$select.x
+        y.label <- input$select.y
 
         switch(input$select.plot.type,
                "histogram" = make.sliderInput("slider.x", y.label),
