@@ -27,13 +27,13 @@ shinyServer(function(input, output) {
         }
         
         else if (input$select.plot.type == "boxplot") {
-            boxplot(data[[input$select.x]], 
-                    ylab=input$select.x,
+            boxplot(data[[input$select.y]], 
+                    ylab=input$select.y,
                     col="seagreen")
         }
         else if (input$select.plot.type == "histogram") {
-            hist(data[[input$select.x]], 
-                    xlab=input$select.x,
+            hist(data[[input$select.y]], 
+                    xlab=input$select.y,
                  col="seagreen")
         }
     })
@@ -41,15 +41,13 @@ shinyServer(function(input, output) {
 
     output$ui <- renderUI({
         switch(input$select.plot.type,
-               "histogram" = selectInput("select.x", label=h4("x axis"), choices=data.columns),
-               "boxplot" = selectInput("select.y", label=h4("y axis"), choices=data.columns),
-               "line" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns),
-                          selectInput("select.y", label=h4("y axis"), choices=data.columns)),
-               "plot" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns),
-                          selectInput("select.y", label=h4("y axis"), choices=data.columns))
+               "histogram" = selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.y),
+               "boxplot" = selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y),
+               "line" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.x),
+                          selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y)),
+               "plot" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.x),
+                          selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y))
                )
-
     })
-
 })
 
