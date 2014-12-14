@@ -37,5 +37,19 @@ shinyServer(function(input, output) {
                  col="seagreen")
         }
     })
+
+
+    output$ui <- renderUI({
+        switch(input$select.plot.type,
+               "histogram" = selectInput("select.x", label=h4("x axis"), choices=data.columns),
+               "boxplot" = selectInput("select.y", label=h4("y axis"), choices=data.columns),
+               "line" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns),
+                          selectInput("select.y", label=h4("y axis"), choices=data.columns)),
+               "plot" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns),
+                          selectInput("select.y", label=h4("y axis"), choices=data.columns))
+               )
+
+    })
+
 })
 

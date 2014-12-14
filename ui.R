@@ -25,13 +25,10 @@ shinyUI(fluidPage(
             # Plot
             sidebarPanel(            
                 # Plot type
-                selectInput("select.plot.type", label=h4("Plot type"), choices=plot.types),
-                
-                # x axis
-                selectInput("select.x", label=h4("x axis"), choices=data.columns),
-      
-                # y axis
-                selectInput("select.y", label=h4("y axis"), choices=data.columns)
+                selection <- selectInput("select.plot.type", label=h4("Plot type"), choices=plot.types),
+
+                # Smart axis selection
+                uiOutput("ui")
             ),
             #
             #
