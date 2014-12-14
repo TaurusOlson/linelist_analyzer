@@ -1,3 +1,3 @@
 # Load the data
-data <- read.csv("~/Dropbox/identified.csv")
-data.columns = colnames(data)
+linelist <- read.csv("~/Dropbox/identified.csv")
+linelist.columns = colnames(linelist)

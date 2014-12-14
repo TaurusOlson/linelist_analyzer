@@ -7,47 +7,69 @@
 
 library(shiny)
 
+source('global.R')
+
+make.sliderInput <- function(inputId, aLabel) {
+    x <- linelist[[aLabel]]
+    return(sliderInput(inputId, h4(aLabel), min(x), max(x), range(x)))
+}
+
+
 shinyServer(function(input, output) {
     
     # Plot
     output$linelistPlot <- renderPlot({
+
+        x.label <- input$select.x
+        y.label <- input$select.y
+        x <- linelist[[x.label]]
+        y <- linelist[[y.label]]
         
         if (input$select.plot.type == "plot") {
-            plot(data[[input$select.x]], 
-                 data[[input$select.y]],
-                 xlab=input$select.x, ylab=input$select.y,
-                 col="tomato")
+            plot(x, y, xlab=x.label, ylab=y.label, col="tomato")
         }
 
         else if (input$select.plot.type == "line") {
-            plot(data[[input$select.x]], 
-                 data[[input$select.y]],
-                 xlab=input$select.x, ylab=input$select.y,
-                 col="tomato", type="l")
+            plot(x, y, xlab=x.label, ylab=y.label, col="tomato", type="l")
         }
         
         else if (input$select.plot.type == "boxplot") {
-            boxplot(data[[input$select.y]], 
-                    ylab=input$select.y,
-                    col="seagreen")
+            boxplot(y, ylab=y.label, col="seagreen")
         }
         else if (input$select.plot.type == "histogram") {
-            hist(data[[input$select.y]], 
-                    xlab=input$select.y,
-                 col="seagreen")
+            hist(y, xlab=y.label, col="seagreen")
         }
     })
 
 
     output$ui <- renderUI({
+
+        x.label <- input$select.x
+        y.label <- input$select.y
+
         switch(input$select.plot.type,
-               "histogram" = selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.y),
-               "boxplot" = selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y),
-               "line" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.x),
-                          selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y)),
-               "plot" = c(selectInput("select.x", label=h4("x axis"), choices=data.columns, selected=input$select.x),
-                          selectInput("select.y", label=h4("y axis"), choices=data.columns, selected=input$select.y))
+               "histogram" = selectInput("select.x", label=h4("x axis"), choices=linelist.columns, selected=y.label),
+               "boxplot" = selectInput("select.y", label=h4("y axis"), choices=linelist.columns, selected=y.label),
+               "line" = c(selectInput("select.x", label=h4("x axis"), choices=linelist.columns, selected=x.label),
+                          selectInput("select.y", label=h4("y axis"), choices=linelist.columns, selected=y.label)),
+               "plot" = c(selectInput("select.x", label=h4("x axis"), choices=linelist.columns, selected=x.label),
+                          selectInput("select.y", label=h4("y axis"), choices=linelist.columns, selected=y.label))
                )
     })
+
+
+    output$sliders <- renderUI({
+
+    x.label <- input$select.x
+    y.label <- input$select.y
+
+        switch(input$select.plot.type,
+               "histogram" = make.sliderInput("slider.x", y.label),
+               "boxplot" = make.sliderInput("slider.y", y.label),
+               "line" = c(make.sliderInput("slider.x", x.label), make.sliderInput("slider.y", y.label)),
+               "plot" = c(make.sliderInput("slider.x", x.label), make.sliderInput("slider.y", y.label))
+               )
+    })
+
 })
 

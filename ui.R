@@ -13,6 +13,8 @@ plot.types <- list("scatter"="plot",
                    "line"="line")
 
 shinyUI(fluidPage(
+
+    titlePanel("Linelist analyzer"),
  
     # Plot
     fluidRow(plotOutput("linelistPlot")),
@@ -33,7 +35,9 @@ shinyUI(fluidPage(
             #
             #
             #
-            sidebarPanel()
+            sidebarPanel(
+                uiOutput("sliders")
+            )
         )
     )
 ))
